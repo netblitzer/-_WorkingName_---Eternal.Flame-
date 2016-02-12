@@ -1,0 +1,8 @@
+*r_num
+
+* or # or $ for version type
+	* for dev version
+	# for working version with bugs
+	$ for debugged working version
+
+num is the revision number it will be AFTER the push

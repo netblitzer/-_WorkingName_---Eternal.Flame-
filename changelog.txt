@@ -1,2 +1,6 @@
-r1
-	initial push
+*r_2
+	-initial push
+
+*r_3
+	-Buttons implemented
+	-Updated GUI for main code
