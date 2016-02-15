@@ -8,10 +8,15 @@ color skyColors[];
 color curSkyColor;
 color dark;
 
-Panel StartScreen;
-Panel OptionsMenu;
+Panel startMenu;
+VisiblePanel optionsMenu;
 
 void setup() {
+  
+  //----------------//
+  /* INITIAL SETUPS */
+  //----------------//
+  
   size(1280, 720, P2D);
   screenSize = new PVector(1280, 720);
   screenAdjust = new PVector(1, 1);
@@ -28,6 +33,34 @@ void setup() {
   skyColors[1] = color(140, 145, 150);
   curSkyColor = skyColors[0];
   dark = color(50, 50);
+  
+  
+    // initialize the start menu
+    
+  startMenu = new Panel(new PVector(945, 150), new PVector(1280, 720));
+  startMenu.addChild(new ButtonContainer(new PVector(0, 0), new PVector(345, 90), "MainScreenButton.png", "MainScreenButtonHighlighted.png", "MainScreenButtonPressed.png"));
+  startMenu.addChild(new ButtonContainer(new PVector(98, 115), new PVector(245, 75), "MainScreenButton.png", "MainScreenButtonHighlighted.png", "MainScreenButtonPressed.png"));
+  startMenu.addChild(new ButtonContainer(new PVector(98, 190), new PVector(245, 75), "MainScreenButton.png", "MainScreenButtonHighlighted.png", "MainScreenButtonPressed.png"));
+  startMenu.updateVisible(true);
+  startMenu.updateActive(true);
+  startMenu.updateAvailable(true);
+  
+  
+    // initialize the options menu
+      // stays the same for every mode
+      
+  optionsMenu = new VisiblePanel(new PVector(380, 80), new PVector(520, 500), 0xDF444444);
+  optionsMenu.addChild(new ButtonContainer(new PVector(490, 0), new PVector(30, 30), 0xBFD04444));
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 110), new PVector(40, 40), 0xBF676767));
+  optionsMenu.addChild(new ButtonContainer(new PVector(410, 110), new PVector(40, 40), 0xBF676767)); //<>//
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 260), new PVector(35, 35), 0xBF676767));
+  optionsMenu.addChild(new ButtonContainer(new PVector(415, 260), new PVector(35, 35), 0xBF676767));
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 345), new PVector(35, 35), 0xBF676767));
+  optionsMenu.addChild(new ButtonContainer(new PVector(415, 345), new PVector(35, 35), 0xBF676767));
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 430), new PVector(35, 35), 0xBF676767));
+  optionsMenu.addChild(new ButtonContainer(new PVector(415, 430), new PVector(35, 35), 0xBF676767));
+  optionsMenu.updateVisible(true);
+  optionsMenu.updateAvailable(true);
 }
 
 void draw() {
@@ -50,11 +83,39 @@ void draw() {
       fill(dark);
       rect(0, 0, screenSize.x, screenSize.y);
       
+      
+      optionsMenu.updateScreenSpace(screenAdjust);
+      
       // mode specific stuff
       if (mode == 0) {
-         //<>//
+         startMenu.updateScreenSpace(screenAdjust);
+         startMenu.display();
+         
+         
+         if (startMenu.isAvailable()) {
+           if (((ButtonContainer)startMenu.getChild(2)).isLeftClicked()) {
+             exit();
+           }
+           if (((ButtonContainer)startMenu.getChild(1)).isLeftClicked()) {
+             optionsMenu.updateActive(true);
+             
+             startMenu.updateAvailable(false);
+           }
+         }
+         
+         if (optionsMenu.isActive()) {
+           if (((ButtonContainer)optionsMenu.getChild(0)).isLeftClicked()) {
+             startMenu.updateAvailable(true);
+             
+             optionsMenu.updateActive(false);
+           }
+         }
       } else if (mode == 1) {
         
+      }
+      
+      if (optionsMenu.isActive()) {
+         optionsMenu.display();
       }
       
       break;

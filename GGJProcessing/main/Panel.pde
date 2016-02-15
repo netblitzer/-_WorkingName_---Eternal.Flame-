@@ -10,9 +10,9 @@ class Panel extends GUIElement {
     children = new ArrayList<GUIElement>();    
   }
   
-  //-------------------//
-  /* INHERITED METHODS */
-  //-------------------//
+  //----------------------------------//
+  /* INHERITED AND OVERRIDDEN METHODS */
+  //----------------------------------//
   
   void updateActive(boolean state) {
     active = state;

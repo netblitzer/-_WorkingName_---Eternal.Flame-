@@ -49,7 +49,7 @@ void draw() {
     }
   }*/
   
-  println(frameRate);
+  //println(frameRate);
   
   ((VisiblePanel) startMenu.getChild(1)).updateColor(255<<24|(int)(sin(frameCount/20.0) * 100 + 155)<<16|(int)(cos(frameCount/20.0) * 100 + 155)<<8|(int)(sin(frameCount/10.0) * 100 + 155));
   //println((int)(sin(frameCount/20.0) * 100 + 155));

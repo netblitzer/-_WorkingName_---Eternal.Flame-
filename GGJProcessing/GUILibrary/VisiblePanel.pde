@@ -20,6 +20,30 @@ class VisiblePanel extends Panel {
     Col = 255<<24|255<<16|255<<8|255;
   }
   
+  //----------------------------------//
+  /* INHERITED AND OVERRIDDEN METHODS */
+  //----------------------------------//
+  
+  void display() {
+    if (visible) {
+      if (Norm == null) { // no images at all
+        fill(Col);
+        rect(actualPos.x, actualPos.y, actualSize.x, actualSize.y);
+      } else {
+        tint(Col);
+        image(Norm, actualPos.x, actualPos.y, actualSize.x, actualSize.y);
+      }
+      
+      for (int i = 0; i < children.size(); i++) {
+        children.get(i).display();
+      }
+    }
+  }
+  
+  //---------------//
+  /* CLASS METHODS */
+  //---------------//
+  
   void updateAlpha(int a) {
     a = pixelConstrain(a);
     Col = a<<24|(Col>>16&0xFF)<<16|(Col>>8&0xFF)<<8|(Col&0xFF);
@@ -43,18 +67,6 @@ class VisiblePanel extends Panel {
   void updateColor(int C) {
     C &= 0xFFFFFFFF;
     Col = (C>>24&0xFF)<<24|(C>>16&0xFF)<<16|(C>>8&0xFF)<<8|(C&0xFF);
-  }
-  
-  void display() {
-    if (visible) {
-      if (Norm == null) { // no images at all
-        fill(Col);
-        rect(actualPos.x, actualPos.y, actualSize.x, actualSize.y);
-      } else {
-        tint(Col);
-        image(Norm, actualPos.x, actualPos.y, actualSize.x, actualSize.y);
-      }
-    }
   }
   
 }
