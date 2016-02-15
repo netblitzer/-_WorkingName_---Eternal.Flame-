@@ -2,14 +2,14 @@
 
 abstract class GUIElement {
   
-  boolean active;
-  boolean available;
-  boolean visible;
-  PVector pos;
-  PVector size;
-  PVector actualPos;
-  PVector actualSize;
-  GUIElement parent;
+  protected boolean active;
+  protected boolean available;
+  protected boolean visible;
+  protected PVector pos;
+  protected PVector size;
+  protected PVector actualPos;
+  protected PVector actualSize;
+  protected GUIElement parent;
   
   GUIElement(PVector p, PVector s) {
     pos = p.copy();
@@ -60,5 +60,11 @@ abstract class GUIElement {
   // updates the position the element is at
   void updateLocation(PVector newLoc) {
     pos.set(newLoc.x, newLoc.y);
+  }
+  
+  // I don't trust the processing constrain, so this one runs super fast
+  int pixelConstrain(int v) {
+    int x = v > 255 ? 255 : v;
+    return (x < 0 ? 0 : x);
   }
 }

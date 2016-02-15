@@ -2,10 +2,9 @@
 
 class VisiblePanel extends Panel {
   
-  color Col;
+  protected color Col;
   
-  PImage Norm;
-  
+  protected PImage Norm;
   
   VisiblePanel(PVector p, PVector s, color C) { // basic panel
     super(p, s);
@@ -22,7 +21,28 @@ class VisiblePanel extends Panel {
   }
   
   void updateAlpha(int a) {
+    a = pixelConstrain(a);
     Col = a<<24|(Col>>16&0xFF)<<16|(Col>>8&0xFF)<<8|(Col&0xFF);
+  }
+  
+  void updateRed(int r) {
+    r = pixelConstrain(r);
+    Col = (Col>>24&0xFF)<<24|r<<16|(Col>>8&0xFF)<<8|(Col&0xFF);
+  }
+  
+  void updateGreen(int g) {
+    g = pixelConstrain(g);
+    Col = (Col>>24&0xFF)<<24|(Col>>16&0xFF)<<16|g<<8|(Col&0xFF);
+  }
+  
+  void updateBlue(int b) {
+    b = pixelConstrain(b);
+    Col = (Col>>24&0xFF)<<24|(Col>>16&0xFF)<<16|(Col>>8&0xFF)<<8|b;
+  }
+  
+  void updateColor(int C) {
+    C &= 0xFFFFFFFF;
+    Col = (C>>24&0xFF)<<24|(C>>16&0xFF)<<16|(C>>8&0xFF)<<8|(C&0xFF);
   }
   
   void display() {

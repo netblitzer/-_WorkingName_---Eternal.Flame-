@@ -2,7 +2,7 @@
 
 class Panel extends GUIElement {
   
-  ArrayList<GUIElement> children;
+  protected ArrayList<GUIElement> children;
   
   Panel(PVector p, PVector s) {
     super(p, s);
@@ -64,7 +64,7 @@ class Panel extends GUIElement {
   }
   
   GUIElement getChild(int loc) {
-    if (loc > children.size() || loc < 0) {
+    if (loc >= children.size() || loc < 0) {
       return null;
     } else {
       return children.get(loc);
