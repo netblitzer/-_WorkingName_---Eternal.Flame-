@@ -8,6 +8,9 @@ color skyColors[];
 color curSkyColor;
 color dark;
 
+byte screenSizeChoice;
+PVector screenSizeOptions[];
+ArrayList<PVector> availableScreenSizeOptions;
 Panel startMenu;
 VisiblePanel optionsMenu;
 
@@ -34,6 +37,31 @@ void setup() {
   curSkyColor = skyColors[0];
   dark = color(50, 50);
   
+  // total screen size list (based on common resolutions on Steam)
+  screenSizeOptions = new PVector[14];
+  screenSizeOptions[0] = (new PVector( 800, 600 ));
+  screenSizeOptions[1] = (new PVector( 1024, 768 ));
+  screenSizeOptions[2] = (new PVector( 1280, 720 ));
+  screenSizeOptions[3] = (new PVector( 1280, 1024 ));
+  screenSizeOptions[4] = (new PVector( 1366, 768 ));
+  screenSizeOptions[5] = (new PVector( 1440, 900 ));
+  screenSizeOptions[6] = (new PVector( 1536, 864 ));
+  screenSizeOptions[7] = (new PVector( 1600, 900 ));
+  screenSizeOptions[8] = (new PVector( 1680, 1050 ));
+  screenSizeOptions[9] = (new PVector( 1920, 1080 ));
+  screenSizeOptions[10] = (new PVector( 1920, 1200 ));
+  screenSizeOptions[11] = (new PVector( 2560, 1440 ));
+  screenSizeOptions[12] = (new PVector( 2560, 1600 ));
+  screenSizeOptions[13] = (new PVector( 3840, 2160 ));
+  
+  availableScreenSizeOptions = new ArrayList<PVector>();
+  for (int i = 0; i < screenSizeOptions.length; i++) {
+    if (screenSizeOptions[i].x < displayWidth && screenSizeOptions[i].y < displayHeight) {
+      availableScreenSizeOptions.add(screenSizeOptions[i]);
+    }
+  }
+  
+  screenSizeChoice = 2; // default to 720p
   
     // initialize the start menu
     
@@ -49,16 +77,21 @@ void setup() {
     // initialize the options menu
       // stays the same for every mode
       
-  optionsMenu = new VisiblePanel(new PVector(380, 80), new PVector(520, 500), 0xDF444444);
-  optionsMenu.addChild(new ButtonContainer(new PVector(490, 0), new PVector(30, 30), 0xBFD04444));
-  optionsMenu.addChild(new ButtonContainer(new PVector(70, 110), new PVector(40, 40), 0xBF676767));
-  optionsMenu.addChild(new ButtonContainer(new PVector(410, 110), new PVector(40, 40), 0xBF676767)); //<>//
-  optionsMenu.addChild(new ButtonContainer(new PVector(70, 260), new PVector(35, 35), 0xBF676767));
-  optionsMenu.addChild(new ButtonContainer(new PVector(415, 260), new PVector(35, 35), 0xBF676767));
-  optionsMenu.addChild(new ButtonContainer(new PVector(70, 345), new PVector(35, 35), 0xBF676767));
-  optionsMenu.addChild(new ButtonContainer(new PVector(415, 345), new PVector(35, 35), 0xBF676767));
-  optionsMenu.addChild(new ButtonContainer(new PVector(70, 430), new PVector(35, 35), 0xBF676767));
-  optionsMenu.addChild(new ButtonContainer(new PVector(415, 430), new PVector(35, 35), 0xBF676767));
+  optionsMenu = new VisiblePanel(new PVector(380, 80), new PVector(520, 500), 0xF8423A35);
+  optionsMenu.addChild(new ButtonContainer(new PVector(490, 0), new PVector(30, 30), 0xDFD04444));
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 80), new PVector(40, 40), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(410, 80), new PVector(40, 40), 0xDF696560)); //<>//
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 230), new PVector(35, 35), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(415, 230), new PVector(35, 35), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 315), new PVector(35, 35), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(415, 315), new PVector(35, 35), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(70, 400), new PVector(35, 35), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(415, 400), new PVector(35, 35), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(210, 460), new PVector(100, 40), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(315, 460), new PVector(100, 40), 0xDF696560));
+  optionsMenu.addChild(new ButtonContainer(new PVector(420, 460), new PVector(100, 40), 0xDF696560));
+  
+  optionsMenu.addChild(new VisiblePanel(new PVector(110, 80), new PVector(300, 40), 0xDF292421));
   optionsMenu.updateVisible(true);
   optionsMenu.updateAvailable(true);
 }
@@ -105,6 +138,36 @@ void draw() {
          
          if (optionsMenu.isActive()) {
            if (((ButtonContainer)optionsMenu.getChild(0)).isLeftClicked()) {
+             startMenu.updateAvailable(true);
+             
+             optionsMenu.updateActive(false);
+           }
+           
+           // screen size choices
+           if (((ButtonContainer)optionsMenu.getChild(1)).isLeftClicked()) {
+             screenSizeChoice--;
+             if (screenSizeChoice >= availableScreenSizeOptions.size()) {
+               screenSizeChoice = 0;
+             } else if (screenSizeChoice < 0) {
+               screenSizeChoice = (byte) (availableScreenSizeOptions.size() - 1);
+             }
+             println(screenSizeChoice);
+             
+           } else if (((ButtonContainer)optionsMenu.getChild(2)).isLeftClicked()) {
+             screenSizeChoice++;
+             if (screenSizeChoice >= availableScreenSizeOptions.size()) {
+               screenSizeChoice = 0;
+             } else if (screenSizeChoice < 0) {
+               screenSizeChoice = (byte) (availableScreenSizeOptions.size() - 1);
+             }
+             
+             println(screenSizeChoice);
+           }
+           
+           if (((ButtonContainer)optionsMenu.getChild(11)).isLeftClicked()) {
+             surface.setResizable(true);
+             surface.setSize((int) ((PVector) availableScreenSizeOptions.get(screenSizeChoice)).x, (int) ((PVector) availableScreenSizeOptions.get(screenSizeChoice)).y);
+             
              startMenu.updateAvailable(true);
              
              optionsMenu.updateActive(false);

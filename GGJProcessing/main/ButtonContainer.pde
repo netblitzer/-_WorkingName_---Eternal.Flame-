@@ -10,6 +10,7 @@ class ButtonContainer extends VisiblePanel {
   
   protected boolean leftClicked;
   protected boolean rightClicked;
+  protected boolean heldDown;
   protected byte mode; // 0 for normal, 1 for hovered over, 2 for pressed down (LEFT), 3 for pressed down (RIGHT)
   
   ButtonContainer(PVector p, PVector s, color C) { // basic panel
@@ -30,6 +31,7 @@ class ButtonContainer extends VisiblePanel {
     
     leftClicked = false;
     rightClicked = false;
+    heldDown = false;
     mode = 0;
   }
   
@@ -165,8 +167,10 @@ class ButtonContainer extends VisiblePanel {
             // mouse over
             if (mouseButton == LEFT && mousePressed) {
               mode = 2;
+              heldDown = true;
             } else if (mouseButton == RIGHT && mousePressed) {
               mode = 3;
+              heldDown = true;
             } else if (mode == 2) {
               leftClicked = true;
               mode = 1;
@@ -202,6 +206,10 @@ class ButtonContainer extends VisiblePanel {
   
   boolean isRightClicked() {
     return rightClicked;
+  }
+  
+  boolean isHeldDown() {
+    return heldDown;
   }
   
   void updateImage(String newPath) {
