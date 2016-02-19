@@ -12,10 +12,22 @@ class VisiblePanel extends Panel {
     Col = C;
   }
   
+  
+  /* DEPRECATED */
   VisiblePanel(PVector p, PVector s, String path) {
     super(p, s);
     
     Norm = loadImage("textures/" + path);
+    
+    Col = 255<<24|255<<16|255<<8|255;
+  }
+  /* DEPRECATED */
+  
+  
+  VisiblePanel(PVector p, PVector s, PImage I) {
+    super(p, s);
+    
+    Norm = I;
     
     Col = 255<<24|255<<16|255<<8|255;
   }

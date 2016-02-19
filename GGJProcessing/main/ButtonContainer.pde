@@ -42,18 +42,40 @@ class ButtonContainer extends VisiblePanel {
     DarkCol = DarkC;
   }
   
+  
+  /* DEPRECATED */
   ButtonContainer(PVector p, PVector s, String path) {
     super(p, s, path);
     
     HighCol = 255<<24|255<<16|255<<8|255;
     DarkCol = 255<<24|100<<16|100<<8|100;
   }
+  /* DEPRECATED */
   
+  
+  ButtonContainer(PVector p, PVector s, PImage I) {
+    super(p, s, I);
+    
+    HighCol = 255<<24|255<<16|255<<8|255;
+    DarkCol = 255<<24|100<<16|100<<8|100;
+  }
+  
+  
+  /* DEPRECATED */
   ButtonContainer(PVector p, PVector s, String path, String HighPath, String DarkPath) {
     super(p, s, path);
     
     High = loadImage("textures/" + HighPath);
     Dark = loadImage("textures/" + DarkPath);
+  }
+  /* DEPRECATED */
+  
+  
+  ButtonContainer(PVector p, PVector s, PImage I, PImage HI, PImage DI) {
+    super(p, s, I);
+    
+    High = HI;
+    Dark = DI;
   }
   
   //----------------------------------//

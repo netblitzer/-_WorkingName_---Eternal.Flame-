@@ -13,3 +13,6 @@
 
 *r_6
 	-Screen options closer to working
+
+*r_7
+	-Texture loading thread implemented
